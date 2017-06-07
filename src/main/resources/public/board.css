@@ -1,0 +1,28 @@
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+tr, td, span {
+    margin: 0;
+    padding: 0;
+}
+
+td {
+    width: 50px;
+    height: 50px;
+    border: 1px white;
+    color: #fff;
+}
+
+td.off {
+    background-color: white;
+}
+
+.on {
+    background-color: black;
+}
+
+.off {
+    background-color: white;
+}
