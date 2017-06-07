@@ -71,7 +71,6 @@ public class Master {
             }
             // we should be finished writing to results at this point
             for (MoveResult move : results) {
-                System.out.println("master::move result: " + move.move().toString());
                 if (move.result()) {
                     suggestions.put(moveEvaluator.buildSuggestion(move.move()));
                 }
@@ -97,12 +96,10 @@ public class Master {
                 // I'll do it
                 MoveEvaluator evaluation = new MasterMoveEvaluator(copy, Optional.of(moves.get(i)));
                 pendingEvaluations.add(evaluation);
-                System.out.println("forking move " + moves.get(i).toString());
                 evaluation.fork();
             } else {
                 // Delegate to a worker node
                 boolean hasMoreWork = moves.size() - i > cluster.size() + 1;
-                System.out.println(String.format("hasMoreWork? (%d - %d) - %d <= 0", moves.size(), i, cluster.size()));
                 cluster.get(pos - 1).sendMove(m);
                 cluster.get(pos - 1).sendBoard(board, hasMoreWork);
             }
@@ -120,7 +117,6 @@ public class Master {
                 }
             }
         }
-        System.out.println("hasAllResults? " + remainingMoves + " - " + i);
         return remainingMoves - i == 0 || cluster.size() == 0;
     }
     

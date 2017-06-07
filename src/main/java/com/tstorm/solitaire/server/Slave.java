@@ -41,9 +41,7 @@ public class Slave {
                 Move m = receiveMove(inputStream);
                 System.out.println(m.toString());
                 Board b = createBoard(objectInputStream);
-                System.out.println("received board");
                 b.jump(m.start(), m.jumped(), m.end());
-                b.print();
                 SlaveMoveEvaluator evaluation = new SlaveMoveEvaluator(b, Optional.of(m));
                 pendingEvaluations.add(evaluation);
                 evaluation.fork();
@@ -57,7 +55,6 @@ public class Slave {
                     DataOutputStream out = new DataOutputStream(response.getOutputStream());
                     Optional<Move> m = pendingEvaluations.get(i).getEvaluationMove();
                     if (m.isPresent()) {
-                        System.out.println("sending move " + m.toString());
                         out.writeInt(m.get().start());
                         out.writeInt(m.get().jumped());
                         out.writeInt(m.get().end());
@@ -82,7 +79,6 @@ public class Slave {
     }
     
     public void sendMove(Move move) {
-        System.out.println("sending move " + move.toString());
         try {
             outputStream.writeInt(move.start());
             outputStream.writeInt(move.jumped());
@@ -95,7 +91,6 @@ public class Slave {
     public static Move receiveMove(DataInputStream inputStream) {
         int start, jumped, end;
         try {
-            System.out.print("receiving move: ");
             start = inputStream.readInt();
             jumped = inputStream.readInt();
             end = inputStream.readInt();
